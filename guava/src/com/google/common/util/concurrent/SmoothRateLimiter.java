@@ -212,9 +212,10 @@ abstract class SmoothRateLimiter extends RateLimiter {
          * The slope of the line from the stable interval (when permits == 0), to the cold interval
          * (when permits == maxPermits)
          */
-        // 斜率
+        // 斜率，表示的是从 stableIntervalMicros 到 coldIntervalMicros 这段时间, 许可数量从 thresholdPermits 变为 maxPermits 的增长速率
         private double slope;
 
+        // 阈值
         private double thresholdPermits;
 
         // 冷却因子, 默认为 3.0
@@ -325,6 +326,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
         }
 
         private double permitsToTime(double permits) {
+            //根据斜率计算当前许可需要的时间
             return stableIntervalMicros + permits * slope;
         }
 
